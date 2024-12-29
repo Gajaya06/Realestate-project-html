@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Properties - Buy & Sell</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        :root {
+            --primary: #2E4057;
+            --accent: #FF6B6B;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--primary);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-links .sell-btn {
+            background: var(--accent);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            height: 600px;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/api/placeholder/1920/600');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Search Box */
+        .search-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            margin: 2rem auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 1rem;
+        }
+
+        .search-box input, .search-box select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .search-box button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Featured Section */
+        .featured {
+            padding: 4rem 5%;
+            background: var(--light);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .property-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .property-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .property-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .tag-sale {
+            background: #28a745;
+            color: white;
+        }
+
+        .property-details {
+            padding: 1.5rem;
+        }
+
+        .property-price {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .property-specs {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        /* Sell Section */
+        .sell-section {
+            padding: 4rem 5%;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        .sell-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .sell-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .sell-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #aaa;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .search-box {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">Elite Properties</a>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#buy">Buy</a>
+            <a href="#rent">Rent</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#sell" class="sell-btn">List Your Property</a>
+        </div>
+    </nav>
+
+    <section class="hero" style="background-image: url('/image/house3.jpg'); background-size: cover; background-position: center; width: 100%; height: 100vh; position: relative;">
+        <div class="hero-content" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center; z-index: 2;">
+            <h1 style="color:;">Your Dream Home Awaits</h1>
+            <div class="search-container" style="margin-top: 20px;">
+                <div class="search-box" style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+                    <input type="text" placeholder="Enter location" style="padding: 10px; width: 300px; border: 1px solid #ccc; border-radius: 5px;">
+                    <select style="padding: 10px; width: 320px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="">Property Type</option>
+                        <option value="house">House</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="villa">Villa</option>
+                    </select>
+                    <select style="padding: 10px; width: 320px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="">Price Range</option>
+                        <option value="100-300">$100k - $300k</option>
+                        <option value="300-500">$300k - $500k</option>
+                        <option value="500-plus">$500k+</option>
+                    </select>
+                    <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Search Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <section class="featured">
+        <div class="section-title">
+            <h2>Featured Properties</h2>
+            <p>Explore our hand-picked properties</p>
+        </div>
+        <div class="property-grid">
+            <div class="property-card">
+                <div class="property-image" style="background-image: url('\house\image\house5.jpg')">
+                    <img src="\house\image\house5.jpg" alt="house" style="width: 100%; height: 100%;">
+                    <span class="property-tag tag-sale">For Sale</span>
+                </div>
+                <div class="property-details">
+                    <h3>Modern Family Home</h3>
+                    <div class="property-price">$450,000</div>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Luxury Lane, Beverly Hills</p>
+                    <div class="property-specs">
+                        <span><i class="fas fa-bed"></i> 4 Beds</span>
+                        <span><i class="fas fa-bath"></i> 3 Baths</span>
+                        <span><i class="fas fa-ruler-combined"></i> 2,200 sq ft</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="property-card">
+                 <div class="property-image" style="background-image: url('\house\image\house2.jpg');">
+        <img src="\house\image\house2.jpg" alt="house" style="width: 100%; height: 100%;">
+                    <span class="property-tag tag-sale">For Sale</span>
+                </div>
+                <div class="property-details">
+                    <h3>Luxury Penthouse</h3>
+                    <div class="property-price">$850,000</div>
+                    <p><i class="fas fa-map-marker-alt"></i> 456 Sky View, Downtown</p>
+                    <div class="property-specs">
+                        <span><i class="fas fa-bed"></i> 3 Beds</span>
+                        <span><i class="fas fa-bath"></i> 2 Baths</span>
+                        <span><i class="fas fa-ruler-combined"></i> 1,800 sq ft</span>
+                    </div>
+                </div>
+            </div>
+
+           <div class="property-card">
+    <div class="property-image" style="background-image: url('\house\image\house.jpg');">
+        <img src="\house\image\house.jpg" alt="house" style="width: 100%; height: 100%;">
+        <span class="property-tag tag-sale">For Sale</span>
+    </div>
+    <div class="property-details">
+        <h3>Beachfront Villa</h3>
+        <div class="property-price">$1,250,000</div>
+        <p><i class="fas fa-map-marker-alt"></i> 789 Ocean Drive, Malibu</p>
+        <div class="property-specs">
+            <span><i class="fas fa-bed"></i> 5 Beds</span>
+            <span><i class="fas fa-bath"></i> 4 Baths</span>
+            <span><i class="fas fa-ruler-combined"></i> 3,500 sq ft</span>
+        </div>
+    </div>
+</div>
+       </div>
+    </section>
+
+    <section class="sell-section">
+        <h2>Sell Your Property</h2>
+        <p>List your property with us and reach thousands of potential buyers</p>
+        <div class="sell-grid">
+            <div class="sell-card">
+                <i class="fas fa-home"></i>
+                <h3>List Property</h3>
+                <p>Add your property details and high-quality photos</p>
+            </div>
+            <div class="sell-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Get Market Value</h3>
+                <p>Get an accurate estimate of your property's worth</p>
+            </div>
+            <div class="sell-card">
+                <i class="fas fa-handshake"></i>
+                <h3>Close Deal</h3>
+                <p>Connect with buyers and close the best deal</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Properties</h3>
+                <ul>
+                    <li><a href="#">Buy</a></li>
+                    <li><a href="#">Sell</a></li>
+                    <li><a href="#">Rent</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
